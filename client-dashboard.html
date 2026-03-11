@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportSphere | Player Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="dashboard-body">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo" style="margin-bottom: 3.5rem;">
+                <i class="fas fa-basketball-ball logo-icon"></i>
+                <span style="font-weight: 800; letter-spacing: 1px;">SPORTSPHERE</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul style="display: flex; flex-direction: column; gap: 0.8rem; padding: 0;">
+                    <li>
+                        <a href="client-dashboard.html" class="side-link active">
+                            <i class="fas fa-search"></i> <span>Book Arena</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" class="side-link"
+                            onclick="showAlert('My Bookings Section Coming Soon')">
+                            <i class="fas fa-ticket-alt"></i> <span>My Bookings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" class="side-link"
+                            onclick="showAlert('Favorites Section Coming Soon')">
+                            <i class="fas fa-heart"></i> <span>Favorites</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html" class="side-link" style="margin-top: 2rem; color: #ef4444;">
+                            <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- User Profile at Bottom -->
+            <div class="user-profile-card glass">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div
+                        style="width: 44px; height: 44px; border-radius: 12px; background: var(--accent-primary); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
+                        AS
+                    </div>
+                    <div class="user-profile-info">
+                        <p style="font-size: 0.9rem; font-weight: 600; color: white;">Alex Smith</p>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary);">Elite Player</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4rem;">
+                <div>
+                    <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem;">Find Your Court</h1>
+                    <p style="color: var(--text-secondary);">Real-time availability for top arenas in Colombo.</p>
+                </div>
+                <div class="glass"
+                    style="padding: 12px 24px; display: flex; gap: 15px; border-radius: 50px; width: 420px; border: 1px solid var(--glass-border);">
+                    <i class="fas fa-map-marker-alt" style="color: var(--accent-primary); margin-top: 4px;"></i>
+                    <input type="text" placeholder="Search by location or sport..."
+                        style="background: transparent; border: none; color: white; outline: none; width: 100%; font-size: 0.9rem;">
+                </div>
+            </header>
+
+            <!-- Featured Venues Grid -->
+            <div style="margin-bottom: 4rem;">
+                <h3 style="margin-bottom: 2rem; font-size: 1.4rem; letter-spacing: 1px;">RECOMMENDED FOR YOU</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 2.5rem;">
+
+                    <!-- Venue 1 -->
+                    <div class="glass venue-card" style="padding: 1.5rem;">
+                        <div
+                            style="width: 100%; height: 200px; border-radius: 18px; background: url('https://images.unsplash.com/photo-1541252260730-0412e8e2108e?auto=format&fit=crop&q=80&w=800') center/cover; margin-bottom: 1.5rem;">
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <h4 style="font-size: 1.25rem; margin-bottom: 0.3rem;">Arena Nexus Premium</h4>
+                                <p style="font-size: 0.85rem; color: var(--text-secondary);"><i
+                                        class="fas fa-location-dot" style="margin-right: 6px;"></i> Colombo 03</p>
+                            </div>
+                            <span class="badge-elite">OPEN NOW</span>
+                        </div>
+                        <div
+                            style="margin-top: 1.2rem; display: flex; gap: 1.5rem; font-size: 0.8rem; color: var(--text-secondary);">
+                            <span><i class="fas fa-star" style="color: #fbbf24; margin-right: 5px;"></i> 4.9
+                                (120)</span>
+                            <span><i class="fas fa-bolt" style="color: var(--accent-primary); margin-right: 5px;"></i>
+                                Instant</span>
+                        </div>
+                        <button class="btn btn-primary"
+                            style="width: 100%; margin-top: 1.8rem; border-radius: 14px; font-size: 0.9rem;"
+                            onclick="openBooking('Arena Nexus Premium')">View Available Slots</button>
+                    </div>
+
+                    <!-- Venue 2 -->
+                    <div class="glass venue-card" style="padding: 1.5rem;">
+                        <div
+                            style="width: 100%; height: 200px; border-radius: 18px; background: url('https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&q=80&w=800') center/cover; margin-bottom: 1.5rem;">
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <h4 style="font-size: 1.25rem; margin-bottom: 0.3rem;">The Olympic Hub</h4>
+                                <p style="font-size: 0.85rem; color: var(--text-secondary);"><i
+                                        class="fas fa-location-dot" style="margin-right: 6px;"></i> Rajagiriya</p>
+                            </div>
+                            <span class="badge-elite" style="background: rgba(255,255,255,0.1); color: #94a3b8;">8
+                                SLOTS</span>
+                        </div>
+                        <div
+                            style="margin-top: 1.2rem; display: flex; gap: 1.5rem; font-size: 0.8rem; color: var(--text-secondary);">
+                            <span><i class="fas fa-star" style="color: #fbbf24; margin-right: 5px;"></i> 4.7 (85)</span>
+                            <span><i class="fas fa-clock" style="color: var(--accent-primary); margin-right: 5px;"></i>
+                                Dynamic</span>
+                        </div>
+                        <button class="btn btn-primary"
+                            style="width: 100%; margin-top: 1.8rem; border-radius: 14px; font-size: 0.9rem;"
+                            onclick="openBooking('The Olympic Hub')">View Available Slots</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Booking Interaction Section -->
+            <div id="booking-grid-section" style="display: none; margin-top: 2rem; margin-bottom: 4rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
+                    <h2 id="selected-venue" style="font-size: 1.8rem;">Live Availability</h2>
+                    <button class="glass"
+                        style="padding: 10px 20px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.85rem; border: 1px solid var(--glass-border); color: white;"
+                        onclick="closeBooking()">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+
+                <div class="glass" style="padding: 3rem; border-radius: 30px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1.5rem;"
+                        id="client-slot-grid">
+                        <!-- Dynamic Slots Generated Here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div style="margin-top: 5rem;">
+                <h3 style="margin-bottom: 2rem; font-size: 1.2rem; color: var(--text-secondary); letter-spacing: 1px;">
+                    RECENT ACTIVITY</h3>
+                <div class="glass" style="padding: 2.5rem; border-radius: 25px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; gap: 1.5rem; align-items: center;">
+                            <div
+                                style="width: 56px; height: 56px; border-radius: 16px; background: rgba(139, 92, 246, 0.1); display: flex; align-items: center; justify-content: center; color: var(--accent-primary); font-size: 1.2rem;">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div>
+                                <h5 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem;">Badminton -
+                                    Court 02</h5>
+                                <p style="font-size: 0.85rem; color: var(--text-secondary);">Arena Nexus Premium • 18:00
+                                    - 19:00 Today</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline"
+                            style="padding: 10px 20px; font-size: 0.85rem; border-radius: 12px;"
+                            onclick="showAlert('Ticket Download Started...')">View Ticket</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Overlay -->
+    <div id="custom-alert"
+        style="display: none; position: fixed; top: 10%; right: 5%; background: var(--accent-primary); color: white; padding: 1rem 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 10000; transition: all 0.3s ease;">
+        <span id="alert-msg"></span>
+    </div>
+
+    <!-- Logic Script -->
+    <script>
+        function showAlert(msg) {
+            const alertBox = document.getElementById('custom-alert');
+            document.getElementById('alert-msg').innerText = msg;
+            alertBox.style.display = 'block';
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 3000);
+        }
+
+        function openBooking(venue) {
+            document.getElementById('selected-venue').innerText = `Live Availability: ${venue}`;
+            document.getElementById('booking-grid-section').style.display = 'block';
+            window.scrollTo({
+                top: document.getElementById('selected-venue').offsetTop - 100,
+                behavior: 'smooth'
+            });
+            generateSlots(venue);
+        }
+
+        function closeBooking() {
+            document.getElementById('booking-grid-section').style.display = 'none';
+        }
+
+        function confirmBooking(time, venue) {
+            showAlert(`Success: Reserved ${venue} at ${time}. Initializing sync...`);
+        }
+
+        function generateSlots(venue) {
+            const grid = document.getElementById('client-slot-grid');
+            const times = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'];
+            let html = '';
+
+            times.forEach(time => {
+                const isBooked = Math.random() < 0.3;
+                html += `
+                    <div class="glass slot-item ${isBooked ? 'locked' : ''}" 
+                         style="border: 1px solid ${isBooked ? '#ef4444' : 'var(--glass-border)'}"
+                         onclick="${isBooked ? '' : `confirmBooking('${time}', '${venue}')`}">
+                        <p style="font-weight: 700; font-size: 1.2rem; color: ${isBooked ? '#ef4444' : 'white'}">${time}</p>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 10px;">${isBooked ? 'COMPLETED' : 'BOOK NOW'}</p>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+    </script>
+</body>
+
+</html>
