@@ -35,7 +35,7 @@
                 <label>Email Address</label>
                 <div class="input-container">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="chirana.info@gmail.com" required>
+                    <input type="email" id="signin-email" placeholder="chirana.info@gmail.com" required>
                 </div>
             </div>
 
@@ -43,12 +43,12 @@
                 <label>Password</label>
                 <div class="input-container">
                     <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="••••••••" required>
+                    <input type="password" id="signin-password" placeholder="••••••••" required>
                 </div>
             </div>
 
             <button type="button" class="btn btn-primary" style="width: 100%; margin-bottom: 1.5rem;"
-                onclick="location.href='client-dashboard.html'">
+                onclick="signInWithEmail(document.getElementById('signin-email').value, document.getElementById('signin-password').value)">
                 Sign In to Dashboard
             </button>
 
@@ -91,7 +91,7 @@
                 <label>Email Address</label>
                 <div class="input-container">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="john@example.com" required>
+                    <input type="email" id="signup-email" placeholder="john@example.com" required>
                 </div>
             </div>
 
@@ -99,12 +99,12 @@
                 <label>Password</label>
                 <div class="input-container">
                     <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Min. 8 characters" required>
+                    <input type="password" id="signup-password" placeholder="Min. 8 characters" required>
                 </div>
             </div>
 
             <button type="button" class="btn btn-primary" style="width: 100%; margin-bottom: 1.5rem;"
-                onclick="location.href='client-dashboard.html'">
+                onclick="signUpWithEmail(document.getElementById('signup-email').value, document.getElementById('signup-password').value)">
                 Initialize Account
             </button>
 

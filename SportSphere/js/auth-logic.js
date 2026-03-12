@@ -19,7 +19,7 @@ const firebaseConfig = {
 let app, auth, googleProvider;
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 try {
     app = initializeApp(firebaseConfig);
@@ -37,10 +37,8 @@ window.signInWithGoogle = async () => {
         const user = result.user;
         console.log("Logged in as:", user.displayName);
 
-        // Redirect to dashboard (Handles relative paths better for GitHub Pages)
-        const isGithubPages = window.location.hostname.includes('github.io');
-        const basePath = isGithubPages ? '/SportSphere/' : '/';
-        window.location.href = basePath + 'client-dashboard.html';
+        // Redirect to dashboard (Relative paths are more robust for both local and GitHub Pages)
+        window.location.href = 'client-dashboard.html';
     } catch (error) {
         console.error("Google Sign-In Error:", error.code, error.message);
 
@@ -66,13 +64,35 @@ window.signInWithGoogle = async () => {
     }
 };
 
+// Function for Email Sign Up
+window.signUpWithEmail = async (email, password) => {
+    try {
+        const result = await createUserWithEmailAndPassword(auth, email, password);
+        console.log("Account created:", result.user.email);
+        window.location.href = 'client-dashboard.html';
+    } catch (error) {
+        console.error("Sign-Up Error:", error.message);
+        alert("Registration Failed: " + error.message);
+    }
+};
+
+// Function for Email Sign In
+window.signInWithEmail = async (email, password) => {
+    try {
+        const result = await signInWithEmailAndPassword(auth, email, password);
+        console.log("Logged in as:", result.user.email);
+        window.location.href = 'client-dashboard.html';
+    } catch (error) {
+        console.error("Sign-In Error:", error.message);
+        alert("Login Failed: " + error.message);
+    }
+};
+
 // Function to Logout
 window.logout = async () => {
     try {
         await signOut(auth);
-        const isGithubPages = window.location.hostname.includes('github.io');
-        const basePath = isGithubPages ? '/SportSphere/' : '/';
-        window.location.href = basePath + 'index.html';
+        window.location.href = 'index.html';
     } catch (error) {
         console.error("Logout Error:", error.message);
     }
@@ -88,18 +108,14 @@ if (auth) {
         if (user) {
             console.log("User is signed in:", user.displayName);
             if (isAuthPage) {
-                const isGithubPages = window.location.hostname.includes('github.io');
-                const basePath = isGithubPages ? '/SportSphere/' : '/';
-                window.location.href = basePath + 'client-dashboard.html';
+                window.location.href = 'client-dashboard.html';
             }
             // Update UI elements if in dashboard
             updateDashboardUI(user);
         } else {
             console.log("No user signed in");
             if (isDashboard) {
-                const isGithubPages = window.location.hostname.includes('github.io');
-                const basePath = isGithubPages ? '/SportSphere/' : '/';
-                window.location.href = basePath + 'auth.html';
+                window.location.href = 'auth.html';
             }
         }
     });
