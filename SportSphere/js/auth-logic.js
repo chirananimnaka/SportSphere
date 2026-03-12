@@ -2,7 +2,6 @@
  * SportSphere Authentication Logic
  * Integrated with Firebase Google Auth
  */
-alert("SportSphere Auth Script Loaded!");
 console.log("SportSphere Auth Script Loaded!");
 
 // Your web app's Firebase configuration
