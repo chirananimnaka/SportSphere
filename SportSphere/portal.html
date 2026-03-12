@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportSphere | Portal Access</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="auth-wrapper">
+    <script>console.log("DOM Initializing... Version: 2.0.5");</script>
+    <div class="glow-orb" style="top: 10%; right: 10%;"></div>
+    <div class="glow-orb" style="bottom: 10%; left: 10%;"></div>
+
+    <header
+        style="position: absolute; top: 0; width: 100%; padding: 2rem 8%; display: flex; justify-content: space-between; align-items: center;">
+        <div class="logo">
+            <i class="fas fa-basketball-ball logo-icon"></i>
+            SportSphere
+        </div>
+        <a href="index.html" class="btn btn-outline"
+            style="padding: 10px 20px; font-size: 0.8rem; border-radius: 10px;">
+            <i class="fas fa-arrow-left"></i> Back to Main Site
+        </a>
+    </header>
+
+    <!-- Sign In Card -->
+    <div id="signin-card" class="auth-card glass-dark fade-up visible">
+        <h2 style="font-weight: 800;">Welcome Back <span style="font-size: 0.6rem; color: #7c4dff; opacity: 0.8;">[v2.0.5]</span></h2>
+        <p style="color: var(--text-secondary); margin-bottom: 3rem;">Login to track your performance</p>
+
+        <form>
+            <div class="form-group">
+                <label>Email Address</label>
+                <div class="input-container">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="signin-email" placeholder="chirana.info@gmail.com" required>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label>Password</label>
+                <div class="input-container">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="signin-password" placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" style="width: 100%; margin-bottom: 1.5rem;"
+                onclick="signInWithEmail(document.getElementById('signin-email').value, document.getElementById('signin-password').value)">
+                Sign In to Dashboard
+            </button>
+
+            <div style="margin: 1.5rem 0; display: flex; align-items: center; gap: 1rem; color: var(--text-secondary);">
+                <div style="flex: 1; height: 1px; background: var(--glass-border);"></div>
+                <span style="font-size: 0.75rem;">or continue with</span>
+                <div style="flex: 1; height: 1px; background: var(--glass-border);"></div>
+            </div>
+
+            <button type="button" class="btn btn-outline"
+                style="width: 100%; background: white; color: black; border: none; margin-bottom: 2rem;"
+                onclick="console.log('Google Auth Clicked'); alert('Opening Google Window...'); signInWithGoogle()">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
+                    style="width: 20px; margin-right: 10px;">
+                Google Account
+            </button>
+
+            <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                New here? <a href="javascript:void(0)" onclick="toggleAuth()"
+                    style="color: var(--accent-primary); font-weight: 600;">Create an account</a>
+            </p>
+        </form>
+    </div>
+
+    <!-- Sign Up Card -->
+    <div id="signup-card" class="auth-card glass-dark fade-up" style="display: none;">
+        <h2 style="font-weight: 800;">Create Account</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 3rem;">Join the elite SportSphere network</p>
+
+        <form>
+            <div class="form-group">
+                <label>Full Name</label>
+                <div class="input-container">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="signup-name" placeholder="John Doe" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <div class="input-container">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="signup-email" placeholder="john@example.com" required>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label>Password</label>
+                <div class="input-container">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="signup-password" placeholder="Min. 8 characters" required>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" style="width: 100%; margin-bottom: 1.5rem;"
+                onclick="signUpWithEmail(document.getElementById('signup-email').value, document.getElementById('signup-password').value)">
+                Initialize Account
+            </button>
+
+            <div style="margin: 1.5rem 0; display: flex; align-items: center; gap: 1rem; color: var(--text-secondary);">
+                <div style="flex: 1; height: 1px; background: var(--glass-border);"></div>
+                <span style="font-size: 0.75rem;">or sign up with</span>
+                <div style="flex: 1; height: 1px; background: var(--glass-border);"></div>
+            </div>
+
+            <button type="button" class="btn btn-outline"
+                style="width: 100%; background: white; color: black; border: none; margin-bottom: 1.5rem;"
+                onclick="console.log('Google Auth Clicked'); alert('Opening Google Window...'); signInWithGoogle()">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
+                    style="width: 20px; margin-right: 10px;">
+                Google Account
+            </button>
+
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 1rem;">
+                Already have an account? <a href="javascript:void(0)" onclick="toggleAuth()"
+                    style="color: var(--accent-primary); font-weight: 600;">Sign In</a>
+            </p>
+        </form>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCRRSQXFaxOejj3t6Px9TmKtKaIRTklruE",
+            authDomain: "newsportdb.firebaseapp.com",
+            projectId: "newsportdb",
+            storageBucket: "newsportdb.firebasestorage.app",
+            messagingSenderId: "881802739414",
+            appId: "1:881802739414:web:c31ca6781d9fb88dd6d377",
+            measurementId: "G-PHL37D1LF8"
+        };
+
+        console.log("Firebase config loading...");
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        window.signInWithGoogle = async () => {
+            if (!auth) {
+                alert("Auth engine not ready! Please wait a few seconds.");
+                return;
+            }
+            try {
+                console.log("Requesting Google Popup...");
+                const result = await signInWithPopup(auth, provider);
+                console.log("Success!", result.user.email);
+                window.location.href = 'client-dashboard.html';
+            } catch (error) {
+                console.error("Firebase Error:", error.code, error.message);
+                if (error.code === 'auth/unauthorized-domain') {
+                    alert("AUTHORIZATION ERROR: This website domain is not allowed in Firebase. Please add 'chirananimnaka.github.io' to Firebase Console > Authentication > Settings > Authorized Domains.");
+                } else {
+                    alert("Firebase Error: " + error.code + "\n" + error.message);
+                }
+            }
+        };
+        console.log("signInWithGoogle ready.");
+    </script>
+    <script type="module" src="./js/auth-logic.js?v=205"></script>
+    <script>
+        function toggleAuth() {
+            const signIn = document.getElementById('signin-card');
+            const signUp = document.getElementById('signup-card');
+
+            if (signIn.style.display === 'none') {
+                signUp.style.display = 'none';
+                signUp.classList.remove('visible');
+                signIn.style.display = 'block';
+                setTimeout(() => signIn.classList.add('visible'), 10);
+            } else {
+                signIn.style.display = 'none';
+                signIn.classList.remove('visible');
+                signUp.style.display = 'block';
+                setTimeout(() => signUp.classList.add('visible'), 10);
+            }
+        }
+    </script>
+</body>
+
+</html>
