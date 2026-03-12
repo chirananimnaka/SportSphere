@@ -10,6 +10,7 @@
 </head>
 
 <body class="auth-wrapper">
+    <script>console.log("DOM Initializing... Version: 2.0.5");</script>
     <div class="glow-orb" style="top: 10%; right: 10%;"></div>
     <div class="glow-orb" style="bottom: 10%; left: 10%;"></div>
 
@@ -27,7 +28,7 @@
 
     <!-- Sign In Card -->
     <div id="signin-card" class="auth-card glass-dark fade-up visible">
-        <h2 style="font-weight: 800;">Welcome Back</h2>
+        <h2 style="font-weight: 800;">Welcome Back <span style="font-size: 0.6rem; color: #7c4dff; opacity: 0.8;">[v2.0.5]</span></h2>
         <p style="color: var(--text-secondary); margin-bottom: 3rem;">Login to track your performance</p>
 
         <form>
@@ -60,7 +61,7 @@
 
             <button type="button" class="btn btn-outline"
                 style="width: 100%; background: white; color: black; border: none; margin-bottom: 2rem;"
-                onclick="alert('Attempting Google Sign-In...'); signInWithGoogle()">
+                onclick="console.log('Google Auth Clicked'); alert('Opening Google Window...'); signInWithGoogle()">
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
                     style="width: 20px; margin-right: 10px;">
                 Google Account
@@ -116,7 +117,7 @@
 
             <button type="button" class="btn btn-outline"
                 style="width: 100%; background: white; color: black; border: none; margin-bottom: 1.5rem;"
-                onclick="alert('Attempting Google Sign-In...'); signInWithGoogle()">
+                onclick="console.log('Google Auth Clicked'); alert('Opening Google Window...'); signInWithGoogle()">
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
                     style="width: 20px; margin-right: 10px;">
                 Google Account
@@ -144,23 +145,33 @@
             measurementId: "G-PHL37D1LF8"
         };
 
+        console.log("Firebase config loading...");
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
         window.signInWithGoogle = async () => {
+            if (!auth) {
+                alert("Auth engine not ready! Please wait a few seconds.");
+                return;
+            }
             try {
-                console.log("Starting Google Popup...");
+                console.log("Requesting Google Popup...");
                 const result = await signInWithPopup(auth, provider);
-                console.log("Success!", result.user);
+                console.log("Success!", result.user.email);
                 window.location.href = 'client-dashboard.html';
             } catch (error) {
-                console.error("Auth Error:", error.code, error.message);
-                alert("Error: " + error.message);
+                console.error("Firebase Error:", error.code, error.message);
+                if (error.code === 'auth/unauthorized-domain') {
+                    alert("AUTHORIZATION ERROR: This website domain is not allowed in Firebase. Please add 'chirananimnaka.github.io' to Firebase Console > Authentication > Settings > Authorized Domains.");
+                } else {
+                    alert("Firebase Error: " + error.code + "\n" + error.message);
+                }
             }
         };
+        console.log("signInWithGoogle ready.");
     </script>
-    <script type="module" src="./js/auth-logic.js?v=999"></script>
+    <script type="module" src="./js/auth-logic.js?v=205"></script>
     <script>
         function toggleAuth() {
             const signIn = document.getElementById('signin-card');
