@@ -4,92 +4,91 @@
  */
 
 // Your web app's Firebase configuration
-// REPLACE WITH YOUR ACTUAL CONFIG FROM FIREBASE CONSOLE
 const firebaseConfig = {
-    apiKey: "AIzaSyCsVSChZyM3Xg3ty21sv5op8p8pkJ95a9w",
-    authDomain: "sportsphere-fc094.firebaseapp.com",
-    projectId: "sportsphere-fc094",
-    storageBucket: "sportsphere-fc094.firebasestorage.app",
-    messagingSenderId: "740927287406",
-    appId: "1:740927287406:web:110d678c5c508dd55f367f",
-    measurementId: "G-Q3BFCYZ40V"
+  apiKey: "AIzaSyCRRSQXFaxOejj3t6Px9TmKtKaIRTklruE",
+  authDomain: "newsportdb.firebaseapp.com",
+  projectId: "newsportdb",
+  storageBucket: "newsportdb.firebasestorage.app",
+  messagingSenderId: "881802739414",
+  appId: "1:881802739414:web:c31ca6781d9fb88dd6d377",
+  measurementId: "G-PHL37D1LF8"
 };
 
-// Initialize Firebase
-let app, auth, googleProvider;
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+let app, auth, googleProvider, analytics;
 
 try {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
     googleProvider = new GoogleAuthProvider();
-    console.log("Firebase initialized successfully");
+    analytics = getAnalytics(app);
+    console.log("Firebase initialized successfully with Analytics");
 } catch (error) {
-    console.warn("Firebase initialization failed. Configuration required.");
+    console.error("Firebase initialization failed:", error);
 }
+
+// Helper to check if Firebase is ready
+const isFirebaseReady = () => {
+    if (!auth) {
+        alert("Firebase not initialized. Please check your configuration in js/auth-logic.js");
+        return false;
+    }
+    return true;
+};
 
 // Function to Sign In with Google
 window.signInWithGoogle = async () => {
+    if (!isFirebaseReady()) return;
     try {
         const result = await signInWithPopup(auth, googleProvider);
-        const user = result.user;
-        console.log("Logged in as:", user.displayName);
-
-        // Redirect to dashboard (Relative paths are more robust for both local and GitHub Pages)
+        console.log("Google Sign-In Success:", result.user.displayName);
         window.location.href = 'client-dashboard.html';
     } catch (error) {
-        console.error("Google Sign-In Error:", error.code, error.message);
-
-        // Suppress errors that occur when a user cancels the login or a popup is already open
-        const silentErrors = [
-            'auth/cancelled-popup-request',
-            'auth/popup-closed-by-user',
-            'auth/user-cancelled'
-        ];
-
-        if (silentErrors.includes(error.code)) {
-            console.log("Sign-in interaction was cancelled by user.");
-            return;
-        }
-
-        if (error.code === 'auth/configuration-not-found') {
-            alert("Configuration Error: Please update your Firebase keys in js/auth-logic.js");
-        } else if (error.code === 'auth/unauthorized-domain') {
-            alert("Security Error: This domain is not authorized in Firebase Console. Please add " + window.location.hostname + " to Authorized Domains.");
-        } else {
-            alert("Sign-in failed: " + error.message);
-        }
+        handleAuthError(error, "Google Sign-In");
     }
 };
 
 // Function for Email Sign Up
 window.signUpWithEmail = async (email, password) => {
+    if (!isFirebaseReady()) return;
+    if (!email || !password) {
+        alert("Please provide both email and password.");
+        return;
+    }
     try {
         const result = await createUserWithEmailAndPassword(auth, email, password);
         console.log("Account created:", result.user.email);
+        
+        // Try to update profile with a name if provided
+        const nameInput = document.getElementById('signup-name');
+        if (nameInput && nameInput.value) {
+            await updateProfile(result.user, { displayName: nameInput.value });
+        }
+        
         window.location.href = 'client-dashboard.html';
     } catch (error) {
-        console.error("Sign-Up Error:", error.message);
-        alert("Registration Failed: " + error.message);
+        handleAuthError(error, "Registration");
     }
 };
 
 // Function for Email Sign In
 window.signInWithEmail = async (email, password) => {
+    if (!isFirebaseReady()) return;
     try {
         const result = await signInWithEmailAndPassword(auth, email, password);
-        console.log("Logged in as:", result.user.email);
+        console.log("Email Sign-In Success:", result.user.email);
         window.location.href = 'client-dashboard.html';
     } catch (error) {
-        console.error("Sign-In Error:", error.message);
-        alert("Login Failed: " + error.message);
+        handleAuthError(error, "Login");
     }
 };
 
 // Function to Logout
 window.logout = async () => {
+    if (!isFirebaseReady()) return;
     try {
         await signOut(auth);
         window.location.href = 'index.html';
@@ -98,7 +97,36 @@ window.logout = async () => {
     }
 };
 
-// Monitor Auth State (Global)
+// Centralized Error Handling
+function handleAuthError(error, context) {
+    console.error(`${context} Error:`, error.code, error.message);
+    
+    const silentErrors = [
+        'auth/cancelled-popup-request',
+        'auth/popup-closed-by-user',
+        'auth/user-cancelled'
+    ];
+
+    if (silentErrors.includes(error.code)) return;
+
+    let userMessage = `${context} failed: ${error.message}`;
+    
+    if (error.code === 'auth/configuration-not-found' || error.code === 'auth/invalid-api-key') {
+        userMessage = "Configuration Error: Your Firebase project keys are invalid or missing.";
+    } else if (error.code === 'auth/unauthorized-domain') {
+        userMessage = `Security Error: This domain (${window.location.hostname}) is not authorized in Firebase Console.`;
+    } else if (error.code === 'auth/email-already-in-use') {
+        userMessage = "This email is already registered. Please sign in instead.";
+    } else if (error.code === 'auth/weak-password') {
+        userMessage = "Password should be at least 6 characters.";
+    } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+        userMessage = "Invalid email or password.";
+    }
+
+    alert(userMessage);
+}
+
+// Monitor Auth State
 if (auth) {
     onAuthStateChanged(auth, (user) => {
         const path = window.location.pathname;
@@ -106,38 +134,38 @@ if (auth) {
         const isAuthPage = path.includes('auth.html');
 
         if (user) {
-            console.log("User is signed in:", user.displayName);
+            console.log("Auth State: User Active", user.email);
             if (isAuthPage) {
                 window.location.href = 'client-dashboard.html';
             }
-            // Update UI elements if in dashboard
             updateDashboardUI(user);
         } else {
-            console.log("No user signed in");
+            console.log("Auth State: Guest");
             if (isDashboard) {
                 window.location.href = 'auth.html';
             }
+            resetNavbarButton();
         }
     });
 }
 
 function updateDashboardUI(user) {
-    // This function will be called on the dashboard to populate user info
+    // 1. Update Navbar (index.html)
+    const navAuthBtn = document.getElementById('nav-auth-btn');
+    if (navAuthBtn) {
+        navAuthBtn.innerText = "Dashboard";
+        navAuthBtn.href = "client-dashboard.html";
+        navAuthBtn.classList.add('active-user');
+    }
+
+    // 2. Update Dashboard Profile (client-dashboard.html / dashboard.html)
     const userNameEl = document.getElementById('user-name-display');
     const userRoleEl = document.getElementById('user-role-display');
     const userImgEl = document.getElementById('user-avatar-display');
     const userInitialEl = document.getElementById('user-initial-display');
 
-    // Update Navbar button in index.html
-    const navAuthBtn = document.getElementById('nav-auth-btn');
-    if (navAuthBtn && user.displayName) {
-        navAuthBtn.innerText = "Dashboard";
-        navAuthBtn.href = "client-dashboard.html";
-    }
+    if (userNameEl) userNameEl.innerText = user.displayName || user.email.split('@')[0];
 
-    if (userNameEl) userNameEl.innerText = user.displayName;
-
-    // Simple logic to set role based on dashboard type
     if (userRoleEl) {
         if (window.location.pathname.includes('client-dashboard.html')) {
             userRoleEl.innerText = "Elite Player";
@@ -151,8 +179,18 @@ function updateDashboardUI(user) {
         userImgEl.style.display = 'block';
         if (userInitialEl) userInitialEl.style.display = 'none';
     } else if (userInitialEl) {
-        userInitialEl.innerText = user.displayName ? user.displayName.charAt(0) : 'U';
+        const displayInitial = user.displayName ? user.displayName.charAt(0) : (user.email ? user.email.charAt(0).toUpperCase() : 'U');
+        userInitialEl.innerText = displayInitial;
         userInitialEl.style.display = 'flex';
         if (userImgEl) userImgEl.style.display = 'none';
+    }
+}
+
+function resetNavbarButton() {
+    const navAuthBtn = document.getElementById('nav-auth-btn');
+    if (navAuthBtn) {
+        navAuthBtn.innerText = "Member Portal";
+        navAuthBtn.href = "auth.html";
+        navAuthBtn.classList.remove('active-user');
     }
 }
