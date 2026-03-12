@@ -130,7 +130,37 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script type="module" src="./js/auth-logic.js?v=500"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCRRSQXFaxOejj3t6Px9TmKtKaIRTklruE",
+            authDomain: "newsportdb.firebaseapp.com",
+            projectId: "newsportdb",
+            storageBucket: "newsportdb.firebasestorage.app",
+            messagingSenderId: "881802739414",
+            appId: "1:881802739414:web:c31ca6781d9fb88dd6d377",
+            measurementId: "G-PHL37D1LF8"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        window.signInWithGoogle = async () => {
+            try {
+                console.log("Starting Google Popup...");
+                const result = await signInWithPopup(auth, provider);
+                console.log("Success!", result.user);
+                window.location.href = 'client-dashboard.html';
+            } catch (error) {
+                console.error("Auth Error:", error.code, error.message);
+                alert("Error: " + error.message);
+            }
+        };
+    </script>
+    <script type="module" src="./js/auth-logic.js?v=999"></script>
     <script>
         function toggleAuth() {
             const signIn = document.getElementById('signin-card');
