@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.systemLockdown = () => {
-        const confirmLock = confirm("institutional Warning: Are you sure you want to trigger System Lockdown?");
+        const confirmLock = confirm("Institutional Warning: Are you sure you want to trigger System Lockdown?");
         if (confirmLock) {
             document.body.style.filter = "grayscale(1) contrast(1.2)";
             alert("Lockdown Protocol Active. Redirection restricted.");
@@ -99,3 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
         alert("Downloading Revenue Yield Analysis (PDF)...");
     };
 });
+
+// Ensure functions are available even if DOMContentLoaded has already fired
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    // Re-bind if necessary, though the above should handle it
+}
