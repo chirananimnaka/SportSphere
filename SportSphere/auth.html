@@ -29,7 +29,7 @@
 
     <!-- Sign In Card -->
     <div id="signin-card" class="auth-card glass-dark fade-up visible">
-        <h2 style="font-weight: 800;">Welcome Back <span style="font-size: 0.6rem; color: #7c4dff; opacity: 0.8;">[v2.0.5]</span></h2>
+        <h2 style="font-weight: 800;">Welcome Back</h2>
         <p style="color: var(--text-secondary); margin-bottom: 3rem;">Login to track your performance</p>
 
         <form>
@@ -62,7 +62,7 @@
 
             <button type="button" class="btn btn-outline"
                 style="width: 100%; background: white; color: black; border: none; margin-bottom: 2rem;"
-                onclick="console.log('Google Auth Clicked'); alert('Opening Google Window...'); signInWithGoogle()">
+                onclick="signInWithGoogle()">
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
                     style="width: 20px; margin-right: 10px;">
                 Google Account
@@ -118,7 +118,7 @@
 
             <button type="button" class="btn btn-outline"
                 style="width: 100%; background: white; color: black; border: none; margin-bottom: 1.5rem;"
-                onclick="console.log('Google Auth Clicked'); alert('Opening Google Window...'); signInWithGoogle()">
+                onclick="signInWithGoogle()">
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
                     style="width: 20px; margin-right: 10px;">
                 Google Account
@@ -153,7 +153,7 @@
 
         window.signInWithGoogle = async () => {
             if (!auth) {
-                alert("Auth engine not ready! Please wait a few seconds.");
+                console.error("Auth engine not ready!");
                 return;
             }
             try {
