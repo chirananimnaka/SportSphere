@@ -153,9 +153,44 @@ ul {
     font-size: 1rem;
     font-weight: 500;
     color: var(--text-primary);
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-primary);
+    transition: var(--transition);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
 }
 
 .nav-links a:hover {
+    color: var(--accent-primary);
+}
+
+.nav-extra {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.hamburger {
+    display: none;
+    font-size: 1.8rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 1001;
+}
+
+.hamburger:hover {
     color: var(--accent-primary);
 }
 
@@ -303,14 +338,17 @@ ul {
     min-height: 100vh;
     background: #05070a;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Better for scrolling content */
+    padding: 120px 20px 60px; /* Padding for header and bottom space */
     position: relative;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .glow-orb {
-    position: absolute;
+    position: fixed;
     width: 400px;
     height: 400px;
     background: var(--accent-primary);
@@ -325,6 +363,8 @@ ul {
     max-width: 480px;
     padding: 3.5rem;
     text-align: center;
+    margin: auto; /* Vertically centers if space permits */
+    flex-shrink: 0; /* Prevents card from squishing */
 }
 
 .auth-card h2 {
@@ -791,10 +831,92 @@ footer {
     }
 
     .hero h1 {
-        font-size: 4rem;
+        font-size: 3.5rem;
+    }
+
+    .hero p {
+        font-size: 1.1rem;
+        margin-bottom: 2.5rem;
     }
 
     section {
-        padding: 80px 8%;
+        padding: 80px 6%;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        height: 100vh;
+        background: var(--bg-secondary);
+        flex-direction: column;
+        justify-content: center;
+        gap: 2.5rem;
+        transition: 0.5s ease-in-out;
+        z-index: 1000;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(20px);
+        border-left: 1px solid var(--glass-border);
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links a {
+        font-size: 1.5rem;
+    }
+
+    #nav-auth-btn {
+        display: none;
+    }
+
+    .nav-links #nav-auth-btn-mobile {
+        display: block !important;
+        margin-top: 1rem;
+    }
+
+    /* Fix Calculator for Mobile */
+    #calculator .glass {
+        padding: 2rem !important;
+    }
+
+    #calculator .glass > div {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+
+    #roi-result {
+        font-size: 2rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero h1 {
+        font-size: 2.8rem;
+    }
+
+    .navbar {
+        padding: 1rem 5%;
+    }
+
+    .logo {
+        font-size: 1.4rem;
+    }
+
+    .auth-wrapper header {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.5rem 5% !important;
+    }
+
+    .auth-card {
+        padding: 2.5rem 1.5rem !important;
+        margin-top: 5rem;
     }
 }
