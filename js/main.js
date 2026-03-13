@@ -98,4 +98,45 @@ document.addEventListener('DOMContentLoaded', () => {
         const resultEl = document.getElementById('roi-result');
         if (resultEl) resultEl.innerText = `LKR ${yieldValue.toFixed(1)}M`;
     };
+
+    // 4. Sport Filtering System
+    const sportCards = document.querySelectorAll('.sport-card');
+    const groundCards = document.querySelectorAll('.ground-card');
+
+    sportCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const sport = card.getAttribute('data-sport');
+            
+            // Toggle active state
+            sportCards.forEach(c => c.classList.remove('active-filter'));
+            card.classList.add('active-filter');
+
+            if (sport === 'all') {
+                resetFilters();
+            } else {
+                filterGrounds(sport);
+            }
+        });
+    });
+
+    function filterGrounds(sport) {
+        groundCards.forEach(card => {
+            const sportsSupported = card.getAttribute('data-sport').split(' ');
+            if (sportsSupported.includes(sport)) {
+                card.classList.remove('hide-ground');
+            } else {
+                card.classList.add('hide-ground');
+            }
+        });
+        
+        // Scroll to grounds section
+        document.getElementById('grounds').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetFilters() {
+        groundCards.forEach(card => {
+            card.classList.remove('hide-ground');
+        });
+        document.getElementById('grounds').scrollIntoView({ behavior: 'smooth' });
+    }
 });
