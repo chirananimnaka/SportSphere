@@ -142,11 +142,23 @@
             <div id="booking-grid-section" style="display: none; margin-top: 2rem; margin-bottom: 4rem;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
                     <h2 id="selected-venue" style="font-size: 1.8rem;">Live Availability</h2>
-                    <button class="glass"
-                        style="padding: 10px 20px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.85rem; border: 1px solid var(--glass-border); color: white;"
-                        onclick="closeBooking()">
-                        <i class="fas fa-times"></i> Close
-                    </button>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div class="glass" style="padding: 8px 15px; border-radius: 12px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--glass-border);">
+                            <span style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Duration:</span>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button onclick="updateDuration(-1)" style="background: rgba(255,255,255,0.1); border: none; color: white; width: 24px; height: 24px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><i class="fas fa-minus" style="font-size: 0.7rem;"></i></button>
+                                <input type="number" id="booking-duration" value="1" min="1" max="8" readonly
+                                    style="background: transparent; border: none; color: white; width: 30px; font-weight: 700; outline: none; text-align: center; font-size: 1rem; -moz-appearance: textfield;">
+                                <button onclick="updateDuration(1)" style="background: rgba(255,255,255,0.1); border: none; color: white; width: 24px; height: 24px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><i class="fas fa-plus" style="font-size: 0.7rem;"></i></button>
+                            </div>
+                            <span style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 600;">HRS</span>
+                        </div>
+                        <button class="glass"
+                            style="padding: 10px 20px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.85rem; border: 1px solid var(--glass-border); color: white;"
+                            onclick="closeBooking()">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                    </div>
                 </div>
 
                 <div class="glass" style="padding: 3rem; border-radius: 30px;">
@@ -215,8 +227,18 @@
             document.getElementById('booking-grid-section').style.display = 'none';
         }
 
+        function updateDuration(val) {
+            const input = document.getElementById('booking-duration');
+            let current = parseInt(input.value);
+            let next = current + val;
+            if (next >= 1 && next <= 8) {
+                input.value = next;
+            }
+        }
+
         function confirmBooking(time, venue) {
-            showAlert(`Success: Reserved ${venue} at ${time}. Initializing sync...`);
+            const duration = document.getElementById('booking-duration').value;
+            showAlert(`Success: Reserved ${venue} at ${time} for ${duration} hour(s). Initializing sync...`);
         }
 
         function generateSlots(venue) {
