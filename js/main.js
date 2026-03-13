@@ -102,6 +102,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Sport Filtering System
     const sportCards = document.querySelectorAll('.sport-card');
     const groundCards = document.querySelectorAll('.ground-card');
+    const googleMap = document.getElementById('google-map');
+
+    groundCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const location = card.getAttribute('data-location');
+            if (location && googleMap) {
+                googleMap.src = `https://maps.google.com/maps?q=${encodeURIComponent(location)}&output=embed`;
+                document.getElementById('arena-locator').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
 
     sportCards.forEach(card => {
         card.addEventListener('click', () => {
