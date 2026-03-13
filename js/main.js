@@ -139,4 +139,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         document.getElementById('grounds').scrollIntoView({ behavior: 'smooth' });
     }
+
+    // Dark Mode Toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = themeToggle.querySelector('i');
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+
+    if (currentTheme === 'light') {
+        document.body.classList.add('light-mode');
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+    }
+
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        themeIcon.classList.toggle('fa-moon', !isLight);
+        themeIcon.classList.toggle('fa-sun', isLight);
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
 });

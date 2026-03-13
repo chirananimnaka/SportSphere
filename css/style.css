@@ -16,6 +16,19 @@
     --transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
+.light-mode {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f1f5f9;
+    --bg-tertiary: #e2e8f0;
+    --accent-primary: #8b5cf6;
+    --accent-secondary: #d8b4fe;
+    --accent-glow: rgba(139, 92, 246, 0.4);
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --glass-bg: rgba(0, 0, 0, 0.03);
+    --glass-border: rgba(0, 0, 0, 0.08);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -106,6 +119,22 @@ ul {
 .btn-outline:hover {
     background: var(--accent-primary);
     transform: translateY(-5px);
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: var(--transition);
+    margin-right: 10px;
+}
+
+.theme-toggle:hover {
+    background: var(--glass-bg);
 }
 
 /* Navbar */
