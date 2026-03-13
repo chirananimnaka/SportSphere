@@ -527,6 +527,43 @@ section {
     gap: 10px;
 }
 
+/* Programs Section */
+.programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 3rem;
+}
+
+.program-card {
+    border-radius: 30px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    transition: var(--transition);
+    background: var(--glass-bg);
+}
+
+.program-img {
+    height: 240px;
+    overflow: hidden;
+}
+
+.program-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.5s ease;
+}
+
+.program-card:hover .program-img img {
+    transform: scale(1.1);
+}
+
+.program-card:hover {
+    border-color: var(--accent-primary);
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6);
+}
+
 /* Contact Section */
 .contact-container {
     display: grid;
